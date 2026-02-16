@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الجدول الدراسي الأسبوعي</title>
+    <title>Study Schedule</title>
     <!-- Google Fonts: Cairo -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -80,9 +80,11 @@
             <div class="view-header">
                 <h2><i class="fa-solid fa-chart-simple"></i> ملخص الدوام</h2>
             </div>
-            <div id="summaryContainer" class="summary-list">
-                <!-- JS will populate this -->
-            </div>
+            <div class="modal-body">
+                <div id="summaryContainer" class="summary-list">
+                    <!-- JS will populate this -->
+                </div>
+            </div>          
         </div>
     </div>
 
@@ -96,48 +98,50 @@
                 <span id="viewClassType" class="badge-large">محاضرة</span>
             </div>
 
-            <div class="view-details">
-                <div class="detail-item">
-                    <i class="fa-solid fa-user-doctor"></i>
-                    <div>
-                        <span class="label">الدكتور</span>
-                        <p id="viewDoctorName">-</p>
+            <div class="modal-body">
+                <div class="view-details">
+                    <div class="detail-item">
+                        <i class="fa-solid fa-user-doctor"></i>
+                        <div>
+                            <span class="label">الدكتور</span>
+                            <p id="viewDoctorName">-</p>
+                        </div>
+                    </div>
+
+                    <div class="detail-item">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <div>
+                            <span class="label">المكان</span>
+                            <p id="viewLocation">-</p>
+                        </div>
+                    </div>
+
+                    <div class="detail-item">
+                        <i class="fa-solid fa-clock"></i>
+                        <div>
+                            <span class="label">التوقيت</span>
+                            <p id="viewTime">-</p>
+                        </div>
+                    </div>
+
+                    <div class="detail-item">
+                        <i class="fa-solid fa-calendar-day"></i>
+                        <div>
+                            <span class="label">اليوم</span>
+                            <p id="viewDay">-</p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="detail-item">
-                    <i class="fa-solid fa-location-dot"></i>
-                    <div>
-                        <span class="label">المكان</span>
-                        <p id="viewLocation">-</p>
-                    </div>
+                <div class="view-actions" style="display: flex; gap: 10px;">
+                    <button id="editLectureBtn" class="btn-primary"
+                        style="background-color: var(--secondary-color); margin-top: 0;">
+                        <i class="fa-solid fa-pen-to-square"></i> تعديل
+                    </button>
+                    <button id="deleteLectureBtn" class="btn-danger-full" style="margin-top: 0;">
+                        <i class="fa-solid fa-trash-can"></i> حذف
+                    </button>
                 </div>
-
-                <div class="detail-item">
-                    <i class="fa-solid fa-clock"></i>
-                    <div>
-                        <span class="label">التوقيت</span>
-                        <p id="viewTime">-</p>
-                    </div>
-                </div>
-
-                <div class="detail-item">
-                    <i class="fa-solid fa-calendar-day"></i>
-                    <div>
-                        <span class="label">اليوم</span>
-                        <p id="viewDay">-</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="view-actions" style="display: flex; gap: 10px;">
-                <button id="editLectureBtn" class="btn-primary"
-                    style="background-color: var(--secondary-color); margin-top: 0;">
-                    <i class="fa-solid fa-pen-to-square"></i> تعديل
-                </button>
-                <button id="deleteLectureBtn" class="btn-danger-full" style="margin-top: 0;">
-                    <i class="fa-solid fa-trash-can"></i> حذف
-                </button>
             </div>
         </div>
     </div>
@@ -147,73 +151,75 @@
         <div class="modal-content">
             <span id="closeModalBtn" class="close-btn"><i class="fa-solid fa-xmark"></i></span>
             <h2><i class="fa-solid fa-plus-circle"></i> إضافة مادة جديدة</h2>
-            <form id="scheduleForm">
-                <div class="form-group">
-                    <label for="subjectName">اسم المادة</label>
-                    <div class="input-with-icon">
-                        <i class="fa-solid fa-book-open"></i>
-                        <input type="text" id="subjectName" placeholder="هياكل بيانات..." required>
-                    </div>
-                </div>
-
-                <div class="form-row">
+            <div class="modal-body">
+                <form id="scheduleForm">
                     <div class="form-group">
-                        <label for="doctorName">اسم الدكتور</label>
+                        <label for="subjectName">اسم المادة</label>
                         <div class="input-with-icon">
-                            <i class="fa-solid fa-user-doctor"></i>
-                            <input type="text" id="doctorName" placeholder="د. أحمد...">
+                            <i class="fa-solid fa-book-open"></i>
+                            <input type="text" id="subjectName" placeholder="هياكل بيانات..." required>
                         </div>
                     </div>
-                </div>
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="classType">نوع المحاضرة (Class Type)</label>
-                        <div class="input-with-icon">
-                            <i class="fa-solid fa-layer-group"></i>
-                            <select id="classType" required>
-                                <option value="Lecture">Lecture</option>
-                                <option value="Section">Section</option>
-                                <option value="Lab">Lab</option>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="doctorName">اسم الدكتور</label>
+                            <div class="input-with-icon">
+                                <i class="fa-solid fa-user-doctor"></i>
+                                <input type="text" id="doctorName" placeholder="د. أحمد...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="classType">نوع المحاضرة (Class Type)</label>
+                            <div class="input-with-icon">
+                                <i class="fa-solid fa-layer-group"></i>
+                                <select id="classType" required>
+                                    <option value="Lecture">Lecture</option>
+                                    <option value="Section">Section</option>
+                                    <option value="Lab">Lab</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="location">المكان / القاعة</label>
+                            <div class="input-with-icon">
+                                <i class="fa-solid fa-location-dot"></i>
+                                <input type="text" id="location" placeholder="قاعة 101...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="dayOfWeek">اليوم</label>
+                            <select id="dayOfWeek" required>
+                                <option value="Saturday">السبت</option>
+                                <option value="Sunday">الأحد</option>
+                                <option value="Monday">الاثنين</option>
+                                <option value="Tuesday">الثلاثاء</option>
+                                <option value="Wednesday">الأربعاء</option>
+                                <option value="Thursday">الخميس</option>
+                                <option value="Friday">الجمعة</option>
                             </select>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="location">المكان / القاعة</label>
-                        <div class="input-with-icon">
-                            <i class="fa-solid fa-location-dot"></i>
-                            <input type="text" id="location" placeholder="قاعة 101...">
+                        <!-- Updated specific logic for times will be handled in JS, letting user pick start/end still allows flexibility,
+                             but we can also add a "Period" selector if needed. For now keeping time inputs but mapping them. -->
+                        <div class="form-group">
+                            <label for="startTime">وقت البداية</label>
+                            <input type="time" id="startTime" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="endTime">وقت النهاية</label>
+                            <input type="time" id="endTime" required>
                         </div>
                     </div>
-                </div>
 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="dayOfWeek">اليوم</label>
-                        <select id="dayOfWeek" required>
-                            <option value="Saturday">السبت</option>
-                            <option value="Sunday">الأحد</option>
-                            <option value="Monday">الاثنين</option>
-                            <option value="Tuesday">الثلاثاء</option>
-                            <option value="Wednesday">الأربعاء</option>
-                            <option value="Thursday">الخميس</option>
-                            <option value="Friday">الجمعة</option>
-                        </select>
-                    </div>
-                    <!-- Updated specific logic for times will be handled in JS, letting user pick start/end still allows flexibility,
-                         but we can also add a "Period" selector if needed. For now keeping time inputs but mapping them. -->
-                    <div class="form-group">
-                        <label for="startTime">وقت البداية</label>
-                        <input type="time" id="startTime" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="endTime">وقت النهاية</label>
-                        <input type="time" id="endTime" required>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn-primary">حفظ المادة <i class="fa-solid fa-check"></i></button>
-            </form>
+                    <button type="submit" class="btn-primary">حفظ المادة <i class="fa-solid fa-check"></i></button>
+                </form>
+            </div>
         </div>
     </div>
 
