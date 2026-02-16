@@ -49,7 +49,13 @@
 
 ## 📸 لقطات من التطبيق (Screenshots)
 
-*قريباً سيتم إضافة صور توضيحية لواجهة البرنامج.*
+### واجهة سطح المكتب (Desktop View)
+![Desktop View](https://via.placeholder.com/800x450?text=Weekly+Study+Schedule+-+Desktop)
+
+### واجهة الجوال (Mobile View)
+![Mobile View](https://via.placeholder.com/300x600?text=Weekly+Study+Schedule+-+Mobile)
+
+*يمكنك استبدال هذه الصور بلقطات حقيقية لموقعك بمجرد تشغيلك للمشروع.*
 
 ---
 
