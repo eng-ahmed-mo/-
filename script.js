@@ -43,25 +43,21 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 8, start: '12:30', end: '13:00' }
     ];
 
-    // Color Palette
-    const colors = [
-        { bg: '#e0e7ff', text: '#4338ca' },
-        { bg: '#d1fae5', text: '#065f46' },
-        { bg: '#fee2e2', text: '#991b1b' },
-        { bg: '#fef3c7', text: '#92400e' },
-        { bg: '#e0f2fe', text: '#075985' },
-        { bg: '#fce7f3', text: '#9d174d' },
-        { bg: '#f3f4f6', text: '#374151' }
-    ];
-
     function getColorForSubject(subject) {
-        if (!subject) return colors[6];
+        if (!subject) return { bg: '#f3f4f6', text: '#374151' };
         let hash = 0;
-        for (let i = 0; i < subject.length; i++) {
-            hash = subject.charCodeAt(i) + ((hash << 5) - hash);
+        const s = subject.trim();
+        for (let i = 0; i < s.length; i++) {
+            hash = s.charCodeAt(i) + ((hash << 5) - hash);
         }
-        const index = Math.abs(hash) % (colors.length - 1);
-        return colors[index];
+        const hue = Math.abs(hash) % 360;
+        // Use HSL for unique, consistent colors:
+        // Background: Light/Pastel (Saturation 75%, Lightness 92%)
+        // Text: Dark version of the same hue (Saturation 90%, Lightness 25%)
+        return {
+            bg: `hsl(${hue}, 75%, 92%)`,
+            text: `hsl(${hue}, 90%, 25%)`
+        };
     }
 
     // Modal Logic
