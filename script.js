@@ -33,14 +33,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Specific Periods Definitions
     const periods = [
-        { id: 1, start: '09:00', end: '09:45' },
-        { id: 2, start: '09:45', end: '10:30' },
-        { id: 3, start: '10:40', end: '11:25' },
-        { id: 4, start: '11:25', end: '12:10' },
-        { id: 5, start: '12:30', end: '13:15' },
-        { id: 6, start: '13:15', end: '14:00' },
-        { id: 7, start: '14:10', end: '14:55' },
-        { id: 8, start: '14:55', end: '15:40' }
+        { id: 1, start: '09:00', end: '09:30' },
+        { id: 2, start: '09:30', end: '10:00' },
+        { id: 3, start: '10:00', end: '10:30' },
+        { id: 4, start: '10:30', end: '11:00' },
+        { id: 5, start: '11:00', end: '11:30' },
+        { id: 6, start: '11:30', end: '12:00' },
+        { id: 7, start: '12:00', end: '12:30' },
+        { id: 8, start: '12:30', end: '13:00' }
     ];
 
     // Color Palette
