@@ -46,22 +46,27 @@ document.addEventListener('DOMContentLoaded', () => {
     function getColorForSubject(subject) {
         if (!subject) return { bg: '#f3f4f6', text: '#374151' };
 
-        // 1. DJB2 Hashing Algorithm (Excellent distribution)
+        // 1. DJB2 Hashing Algorithm
         let hash = 5381;
         const s = subject.trim().toLowerCase();
         for (let i = 0; i < s.length; i++) {
-            hash = ((hash << 5) + hash) + s.charCodeAt(i); /* hash * 33 + char */
+            hash = ((hash << 5) + hash) + s.charCodeAt(i);
         }
 
-        // 2. Golden Ratio Distribution (Ensures maximum spread)
+        // 2. Golden Ratio Distribution for Hue
         const GOLDEN_RATIO_CONJUGATE = 0.618033988749895;
         let h = (Math.abs(hash) * GOLDEN_RATIO_CONJUGATE) % 1;
         const hue = Math.floor(h * 360);
 
-        // 3. Return HSL (Light BG, Dark Text)
+        // 3. Dynamic Saturation & Lightness for better distinction
+        // We use the hash again to shift S and L so even similar hues look different
+        const saturation = 65 + (Math.abs(hash >> 8) % 25); // 65% to 90%
+        const lightnessBG = 84 + (Math.abs(hash >> 16) % 8);   // 84% to 92% (more vivid than before)
+        const lightnessText = 15 + (Math.abs(hash >> 24) % 10); // 15% to 25% (dark contrast)
+
         return {
-            bg: `hsl(${hue}, 80%, 93%)`,
-            text: `hsl(${hue}, 95%, 22%)`
+            bg: `hsl(${hue}, ${saturation}%, ${lightnessBG}%)`,
+            text: `hsl(${hue}, ${saturation + 10}%, ${lightnessText}%)`
         };
     }
 
