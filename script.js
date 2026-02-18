@@ -54,23 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { bg: '#f3f4f6', text: '#374151' }
     ];
 
-    function getContrastYIQ(hexcolor) {
-        if (!hexcolor) return '#000000';
-        hexcolor = hexcolor.replace("#", "");
-        if (hexcolor.length === 3) {
-            hexcolor = hexcolor.split('').map(char => char + char).join('');
-        }
-        const r = parseInt(hexcolor.substring(0, 2), 16);
-        const g = parseInt(hexcolor.substring(2, 4), 16);
-        const b = parseInt(hexcolor.substring(4, 6), 16);
-        const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
-        return (yiq >= 128) ? '#000000' : '#ffffff';
-    }
-
-    function getColorForSubject(subject, itemColor) {
-        if (itemColor) {
-            return { bg: itemColor, text: getContrastYIQ(itemColor) };
-        }
+    function getColorForSubject(subject) {
         if (!subject) return colors[6];
         let hash = 0;
         for (let i = 0; i < subject.length; i++) {
@@ -226,7 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function openViewModal(lecture) {
         currentLectureId = lecture.id;
-        const color = getColorForSubject(lecture.subject, lecture.color);
+        const color = getColorForSubject(lecture.subject);
 
         document.getElementById('viewSubjectName').textContent = lecture.subject;
         document.getElementById('viewSubjectName').style.color = color.text;
@@ -286,7 +270,6 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('dayOfWeek').value = lecture.day || '';
             document.getElementById('startTime').value = lecture.startTime || '';
             document.getElementById('endTime').value = lecture.endTime || '';
-            document.getElementById('subjectColor').value = lecture.color || '#6366f1';
 
             editingLectureId = lecture.id;
 
@@ -333,7 +316,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (lecture) {
                     span = calculateSpan(lecture, i);
                     cell.colSpan = span;
-                    const color = getColorForSubject(lecture.subject, lecture.color);
+                    const color = getColorForSubject(lecture.subject);
                     const badgeStyle = `font-size: 0.75em; padding: 2px 6px; border-radius: 4px; background-color: rgba(255, 255, 255, 0.6); color: ${color.text}; font-weight: 700; margin-right: 6px; display: inline-block;`;
                     const typeText = lecture.type || 'Lecture';
 
@@ -389,7 +372,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (dayLectures.length > 0) {
                 dayLectures.forEach(lec => {
-                    const color = getColorForSubject(lec.subject, lec.color);
+                    const color = getColorForSubject(lec.subject);
                     const card = document.createElement('div');
                     card.className = 'mobile-lec-card';
                     card.style.borderRightColor = color.text;
@@ -428,17 +411,8 @@ document.addEventListener('DOMContentLoaded', () => {
             location: document.getElementById('location').value,
             day: document.getElementById('dayOfWeek').value,
             startTime: document.getElementById('startTime').value,
-            endTime: document.getElementById('endTime').value,
-            color: document.getElementById('subjectColor').value
+            endTime: document.getElementById('endTime').value
         };
-
-        // Sync colors for same subject
-        scheduleData = scheduleData.map(lec => {
-            if (lec.subject.trim() === lectureData.subject.trim()) {
-                return { ...lec, color: lectureData.color };
-            }
-            return lec;
-        });
 
         if (editingLectureId) {
             const index = scheduleData.findIndex(l => l.id === editingLectureId);
@@ -456,21 +430,6 @@ document.addEventListener('DOMContentLoaded', () => {
         saveAndRender();
         closeModal();
     });
-
-    // Auto-fill color for existing subject
-    const subjectNameInput = document.getElementById('subjectName');
-    const subjectColorInput = document.getElementById('subjectColor');
-
-    if (subjectNameInput && subjectColorInput) {
-        subjectNameInput.addEventListener('input', (e) => {
-            const name = e.target.value.trim();
-            if (!name) return;
-            const existing = scheduleData.find(lec => lec.subject.trim().toLowerCase() === name.toLowerCase());
-            if (existing && existing.color) {
-                subjectColorInput.value = existing.color;
-            }
-        });
-    }
 
     // Delete Logic
     const confirmDeleteModalOverlay = document.getElementById('confirmDeleteModalOverlay');
